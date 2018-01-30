@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
+using ApplicationCore.Interfaces;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +15,14 @@ namespace WebBlogApp.Controllers
     public class HomeController : Controller
     {
         // how do I trigger this off of the startup file *****
-        private postRepositoryFs _postRepo = new postRepositoryFs();
+        private readonly IBlogRepository _postRepo;
+        // return to the below
+        // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/using-constructors
+        public HomeController(IBlogRepository postRepo)  
+        {
+            _postRepo = postRepo;  // this is the point at which an dependency has been injected from the outside world
 
+        }
         public IActionResult Index()
         {
             return View();
